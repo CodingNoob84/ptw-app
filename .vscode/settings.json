@@ -1,0 +1,25 @@
+{
+  // Enable format on save
+  "editor.formatOnSave": true,
+
+  // Organize imports on save (remove unused imports and sort the rest)
+  "editor.codeActionsOnSave": {
+    "source.organizeImports":"always",
+    "source.fixAll":"always"
+  },
+
+  // Specify default formatter (you can change this if you use Prettier, ESLint, etc.)
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Optional: Prettier specific config
+  "prettier.requireConfig": true,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "prettier.tabWidth": 2,
+  "prettier.semi": true
+}
