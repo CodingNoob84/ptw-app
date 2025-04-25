@@ -1,6 +1,6 @@
 {
   // Enable format on save
-  "editor.formatOnSave": true,
+  "editor.formatOnSave":true,
 
   // Organize imports on save (remove unused imports and sort the rest)
   "editor.codeActionsOnSave": {

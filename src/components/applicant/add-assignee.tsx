@@ -1,16 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Users, X } from "lucide-react";
-import { Label } from "../ui/label";
-import { Badge } from "../ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Users, X } from 'lucide-react';
+import { useState } from 'react';
+import { Badge } from '../ui/badge';
+import { Label } from '../ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 type Assignee = {
   value: string;
@@ -18,20 +12,22 @@ type Assignee = {
 };
 
 const allAssignees: Assignee[] = [
-  { value: "john.smith@example.com", label: "John Smith" },
-  { value: "sarah.johnson@example.com", label: "Sarah Johnson" },
-  { value: "mike.brown@example.com", label: "Mike Brown" },
-  { value: "emma.davis@example.com", label: "Emma Davis" },
-  { value: "robert.chen@example.com", label: "Robert Chen" },
+  { value: 'john.smith@example.com', label: 'John Smith' },
+  { value: 'sarah.johnson@example.com', label: 'Sarah Johnson' },
+  { value: 'mike.brown@example.com', label: 'Mike Brown' },
+  { value: 'emma.davis@example.com', label: 'Emma Davis' },
+  { value: 'robert.chen@example.com', label: 'Robert Chen' },
 ];
 
 export const AdditionalAssigneeComponent = () => {
   const [selectedAssignees, setSelectedAssignees] = useState<string[]>([]);
+  const [currentSelect, setCurrentSelect] = useState<string>(''); // Local state to reset Select
 
   const toggleAdditionalAssignee = (email: string) => {
     setSelectedAssignees((prev) =>
       prev.includes(email) ? prev.filter((a) => a !== email) : [...prev, email]
     );
+    setCurrentSelect(''); // Reset dropdown to show placeholder again
   };
 
   return (
@@ -43,30 +39,26 @@ export const AdditionalAssigneeComponent = () => {
         <div className="flex flex-wrap gap-2 mb-2">
           {selectedAssignees.length > 0 ? (
             selectedAssignees.map((assigneeEmail) => {
-              const assignee = allAssignees.find(
-                (eng) => eng.value === assigneeEmail
-              );
+              const assignee = allAssignees.find((eng) => eng.value === assigneeEmail);
               return (
-                <Badge
-                  key={assigneeEmail}
-                  variant="secondary"
-                  className="flex items-center gap-1"
-                >
+                <Badge key={assigneeEmail} variant="secondary" className="flex items-center gap-1">
                   {assignee?.label || assigneeEmail}
-                  <X
-                    className="h-3 w-3 cursor-pointer"
+                  <button
+                    type="button"
                     onClick={() => toggleAdditionalAssignee(assigneeEmail)}
-                  />
+                    className="ml-1 rounded hover:bg-muted p-0.5 transition-colors"
+                  >
+                    <X className="h-3 w-3 cursor-pointer" />
+                  </button>
                 </Badge>
               );
             })
           ) : (
-            <div className="text-sm text-muted-foreground">
-              No additional assignees selected
-            </div>
+            <div className="text-sm text-muted-foreground">No additional assignees selected</div>
           )}
         </div>
-        <Select onValueChange={toggleAdditionalAssignee}>
+
+        <Select value={currentSelect} onValueChange={toggleAdditionalAssignee}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Add assignee" />
           </SelectTrigger>

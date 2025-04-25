@@ -5,35 +5,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import {
-    getAllProjects,
-    getPermitDetails,
-    getProjectbyId
+  getAllProjects,
+  getPermitDetails,
+  getProjectbyId
 } from "@/dbqueries/project";
 import { getAllUsers, UserWithReporting } from "@/dbqueries/user";
 import { createClient } from "@/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-    ArrowLeft,
-    Building,
-    Eye,
-    Home,
-    Layers,
-    Loader2,
-    MessageSquare,
-    Paperclip,
-    Tag,
-    Upload,
-    User,
-    X,
+  ArrowLeft,
+  Building,
+  Eye,
+  Home,
+  Layers,
+  Loader2,
+  MessageSquare,
+  Paperclip,
+  Tag,
+  Upload,
+  User,
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -692,7 +692,7 @@ export const EditPermit = ({
                     type="button"
                     onClick={() => setActiveTab("preview")}
                     className="bg-amber-600 hover:bg-amber-700"
-                    disabled={images.length === 0}
+                    //disabled={images.length === 0}
                   >
                     Next: Preview
                   </Button>

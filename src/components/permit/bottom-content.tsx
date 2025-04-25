@@ -1,19 +1,19 @@
 "use client";
 import {
-    InvolvedUser,
-    StatusHistoryItem,
-    updateRequestStatus,
+  InvolvedUser,
+  StatusHistoryItem,
+  updateRequestStatus,
 } from "@/dbqueries/project";
 import { createClient } from "@/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-    AlertCircle,
-    CheckCircle,
-    ClipboardList,
-    Clock,
-    Edit,
-    MessageSquare,
-    XCircle
+  AlertCircle,
+  CheckCircle,
+  ClipboardList,
+  Clock,
+  Edit,
+  MessageSquare,
+  XCircle
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -109,6 +109,7 @@ export const BottomContent = ({
 
           if (result.success) {
             queryClient.invalidateQueries({ queryKey: ["permit", permitId] });
+            queryClient.invalidateQueries({ queryKey: ["allpermits", userId] });
             toast.success("Permit approved by manager");
           } else {
             toast.error(result.error || "Failed to update status");
@@ -135,6 +136,7 @@ export const BottomContent = ({
 
           if (result.success) {
             queryClient.invalidateQueries({ queryKey: ["permit", permitId] });
+            queryClient.invalidateQueries({ queryKey: ["allpermits", userId] });
             toast.success("Permit rejected and returned to applicant");
           } else {
             toast.error(result.error || "Failed to update status");
@@ -159,6 +161,7 @@ export const BottomContent = ({
 
           if (result.success) {
             queryClient.invalidateQueries({ queryKey: ["permit", permitId] });
+            queryClient.invalidateQueries({ queryKey: ["allpermits", userId] });
             toast.success("Permit rejected and returned to applicant");
           } else {
             toast.error(result.error || "Failed to update status");
@@ -177,8 +180,8 @@ export const BottomContent = ({
       {getLastStageStatus === "sa_pending" && myRole === "applicant" && (
         <StatusBanner
           icon={<Clock className="h-6 w-6 text-amber-500" />}
-          title="Waiting for Engineer Approval"
-          description="Your permit is currently being reviewed by the site engineer."
+          title="Waiting for Safety Accessor Approval"
+          description="Your permit is currently being reviewed by the safety accessor."
           color="amber"
         />
       )}
@@ -199,8 +202,8 @@ export const BottomContent = ({
       {getLastStageStatus === "sa_pending" && myRole === "manager" && (
         <StatusBanner
           icon={<Clock className="h-6 w-6 text-amber-500" />}
-          title="Waiting for Engineer Approval"
-          description="The permit is currently being reviewed by the site engineer."
+          title="Waiting for Safety Accessor Approval"
+          description="The permit is currently being reviewed by the safety accessor."
           color="amber"
         />
       )}
@@ -210,7 +213,7 @@ export const BottomContent = ({
         <StatusBanner
           icon={<Clock className="h-6 w-6 text-blue-500" />}
           title="Waiting for Manager Approval"
-          description="The engineer has approved and your permit is now with the manager for final review."
+          description="The Safety Accessor has approved and your permit is now with the manager for final review."
           color="blue"
         />
       )}
@@ -219,7 +222,7 @@ export const BottomContent = ({
         myRole === "safetyaccessor" && (
           <StatusBanner
             icon={<CheckCircle className="h-6 w-6 text-emerald-500" />}
-            title="Engineer Approved - Waiting for Manager Approval"
+            title="Safety Accessor Approved - Waiting for Manager Approval"
             description="You have approved this permit and it's now with the manager for final review."
             color="emerald"
           />
@@ -307,7 +310,6 @@ export const BottomContent = ({
               </div>
               <Button
                 variant="default"
-                //onClick={() => router.push(`/permits/edit/${permitId}`)}
                 className="w-full bg-amber-600 hover:bg-amber-700"
                 asChild
               >

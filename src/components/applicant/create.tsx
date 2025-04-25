@@ -625,7 +625,7 @@ export default function CreatePermit() {
                     type="button"
                     onClick={() => setActiveTab("preview")}
                     className="bg-amber-600 hover:bg-amber-700"
-                    disabled={images.length === 0}
+                    //disabled={images.length === 0}
                   >
                     Next: Preview
                   </Button>

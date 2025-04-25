@@ -1,15 +1,11 @@
-import { PermitDetailsPage } from "@/components/permit/permit-details-page";
-import { Button } from "@/components/ui/button";
-import { getPermitDetails } from "@/dbqueries/project";
-import { getUserWithReporting, UserWithReporting } from "@/dbqueries/user";
-import { createClient } from "@/supabase/server";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { PermitDetailsPage } from '@/components/permit/permit-details-page';
+import { Button } from '@/components/ui/button';
+import { getPermitDetails } from '@/dbqueries/project';
+import { getUserWithReporting, UserWithReporting } from '@/dbqueries/user';
+import { createClient } from '@/supabase/server';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export default async function PermitDetailPage({
   params,
@@ -24,7 +20,7 @@ export default async function PermitDetailPage({
 
   // Get the current user with reporting hierarchy
   const userData: UserWithReporting = await queryClient.ensureQueryData({
-    queryKey: ["userinfo"],
+    queryKey: ['userinfo'],
     queryFn: () => getUserWithReporting(supabase),
   });
 
@@ -32,7 +28,7 @@ export default async function PermitDetailPage({
 
   // Now fetch the permit details using userId + permitId
   await queryClient.prefetchQuery({
-    queryKey: ["permit", permitId],
+    queryKey: ['permit', permitId],
     queryFn: () => getPermitDetails(permitId, supabase),
   });
 

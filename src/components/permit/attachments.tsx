@@ -1,8 +1,8 @@
-import { ImageIcon } from "lucide-react";
-import Image from "next/image";
+import { ImageIcon } from 'lucide-react';
+import Image from 'next/image';
 
 export const Attachments = () => {
-  const images = ["/images/placeholder.jpg", "/images/placeholder.jpg"];
+  const images = ['/images/placeholder.jpg', '/images/placeholder.jpg'];
   return (
     <div className="space-y-4">
       <h3 className="flex items-center text-lg font-medium">
@@ -14,9 +14,11 @@ export const Attachments = () => {
           {images.map((image, index) => (
             <div key={index} className="border rounded-md overflow-hidden">
               <Image
-                src={image || ""}
+                src={image || ''}
                 alt={`Attachment ${index + 1}`}
                 className="w-full h-auto"
+                width={100}
+                height={100}
               />
             </div>
           ))}

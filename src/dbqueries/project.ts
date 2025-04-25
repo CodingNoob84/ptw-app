@@ -194,6 +194,87 @@ export const submitPermitData = async (
   }
 };
 
+export type UpdatePermitData = {
+  permitId:string
+  projectId: string;
+  towerId: string;
+  floorId: string;
+  unitId: string;
+  categoryId: string;
+  subcategoryId: string;
+  comments: string;
+  createdBy: string;
+  assignedTo: string;
+  sa_id: string;
+  manager_id: string;
+  images?: { file: File; preview: string }[];
+};
+
+export const updatePermitData = async (
+  data: UpdatePermitData,
+  supabase: TypedSupabaseClient
+) => {
+  try {
+    // 1. Update the permit
+    const { error: updateError } = await supabase
+      .from("permits")
+      .update({
+        project_id: data.projectId,
+        tower_id: data.towerId,
+        floor_id: data.floorId,
+        unit_id: data.unitId,
+        category_id: data.categoryId,
+        subcategory_id: data.subcategoryId,
+        comments: data.comments,
+        sa_id: data.sa_id,
+        manager_id: data.manager_id,
+      })
+      .eq("id", data.permitId);
+
+    if (updateError) {
+      throw updateError;
+    }
+
+    // 2. Insert status updates (if needed after update)
+    const { error: statusError } = await supabase
+      .from("request_status")
+      .insert([
+        {
+          permit_id: data.permitId,
+          user_id: data.createdBy,
+          status: "requested",
+          comments: "Permit Request Re-Submitted",
+          status_msg: "applicant_resubmitted",
+          stage: 1,
+        },
+        {
+          permit_id: data.permitId,
+          user_id: data.assignedTo,
+          status: "pending",
+          comments: "Safety Accessor Review Required",
+          status_msg: "sa_pending",
+          stage: 2,
+        },
+      ]);
+
+    if (statusError) {
+      throw statusError;
+    }
+
+    return {
+      success: true,
+      data: data.permitId,
+    };
+  } catch (error) {
+    console.error("Error updating permit:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
+};
+
+
 // Function to get request status history for a permit
 
 // Base type for a single permit
@@ -317,6 +398,8 @@ export interface Permit {
   current_status: string;
   status_history: StatusHistory[];
   subcategory_name: string;
+  issa_completed:boolean;
+  ismanager_completed:boolean;
   created_by_fullname: string;
 }
 
